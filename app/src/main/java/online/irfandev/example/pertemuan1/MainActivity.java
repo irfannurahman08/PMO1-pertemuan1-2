@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnPesanDua,btnTampilkanNama,btnTambah,btnKurang,btnKali,btnBagi;
+    Button btnPesanDua,btnTampilkanNama,btnTambah,btnKurang,btnKali,btnBagi,btnWhile,btnDoWhile,btnFor;
     EditText etNama,etBil1,etBil2,etHasil;
+    TextView tvBilangan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         etNama=(EditText)findViewById(R.id.etNama);
-        btnTampilkanNama=(Button)findViewById(R.id.etNama);
+        btnTampilkanNama=(Button)findViewById(R.id.btnTampilkanNama);
         btnTampilkanNama.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btnTambah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double vbil1=Double.valueOf(etBil1.getText().toString());
-                double vbil2=Double.valueOf(etBil2.getText().toString());
-                double vhasil=vbil1+vbil2;
-                etHasil.setText(String.valueOf(vhasil));
+                prosesMatematika("Tambah");
             }
         });
 
@@ -52,10 +51,7 @@ public class MainActivity extends AppCompatActivity {
         btnKurang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double vbil1=Double.valueOf(etBil1.getText().toString());
-                double vbil2=Double.valueOf(etBil2.getText().toString());
-                double vhasil=vbil1-vbil2;
-                etHasil.setText(String.valueOf(vhasil));
+                prosesMatematika("Kurang");
             }
         });
 
@@ -63,10 +59,7 @@ public class MainActivity extends AppCompatActivity {
         btnKali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double vbil1=Double.valueOf(etBil1.getText().toString());
-                double vbil2=Double.valueOf(etBil2.getText().toString());
-                double vhasil=vbil1*vbil2;
-                etHasil.setText(String.valueOf(vhasil));
+                prosesMatematika("Kali");
             }
         });
 
@@ -74,15 +67,81 @@ public class MainActivity extends AppCompatActivity {
         btnBagi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double vbil1=Double.valueOf(etBil1.getText().toString());
-                double vbil2=Double.valueOf(etBil2.getText().toString());
-                double vhasil=vbil1/vbil2;
-                etHasil.setText(String.valueOf(vhasil));
+                prosesMatematika("Bagi");
+            }
+        });
+
+        tvBilangan=(TextView)findViewById(R.id.tvBilangan);
+
+        btnWhile=(Button)findViewById(R.id.btnWhile);
+        btnWhile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bil=2;
+                tvBilangan.setText("");
+                while (bil<=20){
+                    tvBilangan.setText(tvBilangan.getText().toString()+String.valueOf(bil)+",");
+                    bil+=2;
+                }
+            }
+        });
+
+        btnDoWhile=(Button)findViewById(R.id.btnDoWhilw);
+        btnDoWhile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bil=1;
+                tvBilangan.setText("");
+                do{
+                    tvBilangan.setText(tvBilangan.getText().toString()+String.valueOf(bil)+",");
+                    bil+=2;
+                }while (bil<=20);
+            }
+        });
+
+        btnFor=(Button)findViewById(R.id.btnFor);
+        btnFor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvBilangan.setText("");
+                for (int bil = 1; bil <= 10; bil++) {
+                    tvBilangan.setText(tvBilangan.getText().toString()+String.valueOf(bil)+",");
+                }
             }
         });
     }
 
     public void tampilkanPesan(View view){
         Toast.makeText(MainActivity.this,"Selamat Belajar Android",Toast.LENGTH_LONG).show();
+    }
+
+    void prosesMatematika(String jenisproses){
+        if(statusIsian()==true){
+            ProsesHitung2 proseshitung2 =new ProsesHitung2(Double.valueOf(etBil1.getText().toString()),Double.valueOf(etBil2.getText().toString()));
+
+            if (jenisproses.equalsIgnoreCase("Tambah")){
+                etHasil.setText(String.valueOf(proseshitung2.getTambah()));
+            }else if (jenisproses.equalsIgnoreCase("Kurang")){
+                etHasil.setText(String.valueOf(proseshitung2.getKurang()));
+            }else if (jenisproses.equalsIgnoreCase("Bagi")){
+                etHasil.setText(String.valueOf(proseshitung2.getBagi()));
+            }else if (jenisproses.equalsIgnoreCase("Kali")){
+                etHasil.setText(String.valueOf(proseshitung2.getKali()));
+            }
+        }
+    }
+
+    boolean statusIsian(){
+        boolean vstatus=true;
+        if (etBil1.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bilangan satu harap diisi",Toast.LENGTH_SHORT).show();
+            etBil1.requestFocus();
+            vstatus=false;
+        } else if (etBil2.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Bilangan dua harap diisi", Toast.LENGTH_SHORT).show();
+            etBil2.requestFocus();
+            vstatus=false;
+        }
+        return vstatus;
     }
 }

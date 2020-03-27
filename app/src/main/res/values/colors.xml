@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="backgroundTombol">#0AF314</color>
-    <color name="warnaTulisanTombol">#DAC50F</color>
+    <color name="backgroundTombol">#00FF0B</color>
+    <color name="warnaTulisanTombol">#EED826</color>
 </resources>
